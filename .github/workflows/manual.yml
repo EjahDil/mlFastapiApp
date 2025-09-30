@@ -1,5 +1,3 @@
-# .github/workflows/manual.yml
-
 name: Manual Dispatch Pipeline
 
 on:
