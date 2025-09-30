@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException
 from dotenv import load_dotenv
 import joblib
-from pydanticbm import IrisData
+from .pydanticbm import IrisData
 import asyncio
 from fastapi import BackgroundTasks, Depends, Request, Security
 # from auth import get_api_key
@@ -62,6 +62,16 @@ async def get_api_key(api_key: str = Security(api_key_header)):
     if api_key == API_KEY:
         return api_key
     raise JSONResponse(status_code=403, content={"detail": "Unauthorized"})
+
+
+# Health check endpoint
+@appls.get("/health")
+async def health_check():
+    return {"status": "healthy"}
+
+@appls.get("/")
+async def root():
+    return {"message": "Hello World"}
 
 
 @appls.get("/secure-data")
