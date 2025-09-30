@@ -1,0 +1,21 @@
+name: Extract GitHub Secret
+
+# This allows the workflow to be triggered manually
+on:
+  workflow_dispatch:
+
+jobs:
+  extract-secret-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Display Secret (masked in logs)
+        run: echo "My secret is ${{ secrets.MY_SECRET }}"
+
+      - name: Write Secret to File (demo purpose)
+        run: |
+          echo "${{ secrets.MY_SECRET }}" > secret_output.txt
+          echo "Secret written to file secret_output.txt"
