@@ -16,8 +16,9 @@ jobs:
 
       - name: Print GitHub Variable
         run: |
-          echo "The variable is: ${{ vars.MY_VARIABLE }}"
+          echo "The variable is: ${{ vars.DEPLOY_ENV }}"
 
       - name: Print GitHub Secret
         run: |
-          echo "The secret is: ${{ secrets.MY_SECRET }}"
+          echo "The secret is: ${{ secrets.API_KEY }}"
+
