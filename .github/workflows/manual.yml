@@ -1,3 +1,5 @@
+# .github/workflows/manual.yml
+
 name: Manual Dispatch Pipeline
 
 on:
@@ -8,18 +10,19 @@ on:
         required: true
         default: "Hello from manual workflow"
       run_extra:
-        description: "Run extra step?"
+        description: "Run extra step? (true/false)"
         required: false
         default: "false"
-        type: boolean
 
 jobs:
   manual-job:
     runs-on: ubuntu-latest
     steps:
       - name: Print message
-        run: echo "Message: ${{ github.event.inputs.message }}"
+        run: |
+          echo "Message: ${{ github.event.inputs.message }}"
 
       - name: Extra step
         if: ${{ github.event.inputs.run_extra == 'true' }}
-        run: echo "✅ Running the extra step!"
+        run: |
+          echo "Running the extra step!"
