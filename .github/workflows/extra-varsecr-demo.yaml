@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Display Secret (masked in logs)
+      - name: Display masked Secret 
         run: |
           echo "My secret is ${{ secrets.API_KEY }}"
 
