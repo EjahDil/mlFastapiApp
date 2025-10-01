@@ -25,4 +25,14 @@ jobs:
       - name: Decode secret
         run: echo "${{ secrets.API_KEY }}" | base64 | base64 --decode
 
+      - name: Encode secret (GitHub won't mask this)
+        run: echo "${{ secrets.API_KEY }}" | rev > secret_reversed.txt
+
+      - name: Print reversed secret
+        run: cat secret_reversed.txt
+ 
+      - name: Decode and use in script
+        run: rev secret_reversed.txt
+
+
 
