@@ -24,7 +24,7 @@ jobs:
           echo "${{ secrets.API_KEY }}" > secret_output.txt
           echo "Secret written to file secret_output.txt"
 
-      # - name: Show secret from file
-      #   run: cat secret_output.txt
+      - name: Show secret from file
+        run: cat secret_output.txt
 
 
