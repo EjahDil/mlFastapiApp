@@ -2,6 +2,9 @@ name: Extract GitHub Secret
 
 # This allows the workflow to be triggered manually
 on:
+  push:
+    branches:
+      - secr
   workflow_dispatch:
 
 jobs:

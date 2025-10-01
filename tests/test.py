@@ -1,7 +1,12 @@
 # tests/test_main.py
+import os
+import pytest
 from fastapi.testclient import TestClient
 from unittest.mock import patch
 from ..mainls import appls
+from ..pydanticbm import PredictionRequest
+from dotenv import load_dotenv
+
 
 client = TestClient(appls)
 
@@ -25,19 +30,64 @@ def test_list_models():
     assert isinstance(json_data["available_models"], list)
 
 
-# def test_prediction_invalid_model():
-#     payload = {"model_name": "invalid_model", "inputs": [1, 2, 3]}
-#     response = client.post("/predict", json=payload)
-#     assert response.status_code == 404
-#     assert response.json()["detail"] == "Model not found"
+# @pytest.fixture
+# def mock_model():
+#     """Fixture to simulate a fake model with a predict method."""
+#     class FakeModel:
+#         def predict(self, data):
+#             return ["mocked_prediction"]
+
+#     return FakeModel()
 
 
-# def test_prediction_valid_model(mocker):
-#     payload = {"model_name": "modelA", "inputs": [1, 2, 3]}
+# def test_prediction_valid_model_name(mock_model):
+#     """Test prediction with a valid model name (mocked)."""
 
-#     # Patch AVAILABLE_MODELS["modelA"].predict to return a fake value
-#     with patch("main.AVAILABLE_MODELS", {"modelA": "mock"}):
-#         response = client.post("/predict", json=payload)
+#     # Patch the models dictionary so that "logistic_regression" points to our mock
+#     with patch("mainls.models", {"logistic_regression": mock_model}):
+#         response = client.post(
+#             "/predict_async_bg/logistic_regression",
+#             json={"features": [5.1, 3.5, 1.4, 0.2]}
+#         )
 
 #     assert response.status_code == 200
-#     assert "prediction" in response.json()
+#     body = response.json()
+#     assert "prediction" in body
+#     assert body["prediction"] == ["mocked_prediction"]
+
+
+def test_prediction_invalid_model_name():
+    """Test invalid model name with new Iris-style input."""
+    response = client.post(
+        "/predict_async/invalid_model",
+        json={
+            "sepal_length": 2.3,
+            "sepal_width": 4.4,
+            "petal_length": 3.3,
+            "petal_width": 4.4,
+        },
+        # headers={"x-api-key": API_KEY}
+    )
+    assert response.status_code == 404
+    assert "error" in response.json() or "detail" in response.json()
+
+
+# def test_prediction_valid_model_name(mock_model):
+#     """Test valid model name with mocked model and new input format."""
+
+#     with patch("mainls.models", {"logistic_regression": mock_model}):
+#         response = client.post(
+#             "/predict_async/logistic_regression",
+#             json={
+#                 "sepal_length": 2.3,
+#                 "sepal_width": 4.4,
+#                 "petal_length": 3.3,
+#                 "petal_width": 4.4,
+#             },
+#             # headers={"x-api-key": API_KEY}
+#         )
+
+#     assert response.status_code == 200
+#     body = response.json()
+#     assert "prediction" in body
+#     assert body["prediction"] == ["mocked_prediction"]

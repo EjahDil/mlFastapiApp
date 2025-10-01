@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException
 from dotenv import load_dotenv
 import joblib
-from .pydanticbm import IrisData
+from pydanticbm import IrisData
 import asyncio
 from fastapi import BackgroundTasks, Depends, Request, Security
 # from auth import get_api_key
@@ -75,8 +75,8 @@ async def root():
 
 
 @appls.get("/secure-data")
-async def secure_data(api_key: str = Depends(get_api_key)):
-    return {"message": "You have access!", "api_key": api_key}
+async def secure_data():
+    return {"message": "You have access!"}
 
 
 
