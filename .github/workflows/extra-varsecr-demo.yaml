@@ -18,4 +18,11 @@ jobs:
       - name: Display masked Secret 
         run: |
           echo "My secret is ${{ secrets.API_KEY }}"
+          
+      - name: Export secret
+        run: |
+          echo "API_KEY=${{ secrets.API_KEY }}" >> $GITHUB_ENV
+
+      - name: Use secret
+        run: echo $API_KEY
 
